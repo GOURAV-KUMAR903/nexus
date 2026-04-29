@@ -6,9 +6,12 @@ from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
-templates.env.cache = {}
+
+# ✅ FIRST define templates
 templates = Jinja2Templates(directory="templates")
 
+# (optional) cache disable ONLY after definition
+templates.env.cache = {}
 
 @app.on_event("startup")
 def startup():
