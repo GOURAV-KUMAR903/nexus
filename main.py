@@ -3,6 +3,7 @@ from database.db import engine, Base
 from routes import user_routes, cron_routes, product_routes
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse, JSONResponse
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 templates.env.cache = {}
