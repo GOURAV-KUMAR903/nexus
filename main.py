@@ -5,6 +5,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse, JSONResponse
 
 app = FastAPI()
+templates.env.cache = {}
+templates = Jinja2Templates(directory="templates")
+
 
 @app.on_event("startup")
 def startup():
