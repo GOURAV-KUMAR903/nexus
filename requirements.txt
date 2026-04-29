@@ -7,3 +7,4 @@ psycopg2-binary
 jinja2
 cryptography
 python-jose[cryptography]
+python-multipart
