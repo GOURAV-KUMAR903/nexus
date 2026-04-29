@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{APP_NAME}}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fdfbfb, #ebedee); /* light soft gradient */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); /* soft shadow */
+            width: 100%;
+            max-width: 480px;
+            padding: 25px;
+            background: #ffffff;
+        }
+
+        .form-control:focus {
+            border-color: #a0c4ff;
+            box-shadow: 0 0 5px rgba(160,196,255,0.4); /* soft blue highlight */
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #a0c4ff, #bdb2ff);
+            border: none;
+            transition: background 0.3s ease;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #bdb2ff, #a0c4ff);
+        }
+
+        #success-msg {
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card p-5 mt-3">
+    <p class ="text-center">{{APP_NAME}}</p>
+    <h3 class="text-center mb-4">Add New Product</h3>
+   <div id="success-msg" class="alert alert-success d-none" role="alert"></div>
+    <form id="product-form" >
+        <div class="mb-3">
+            <label for="product_name" class="form-label">Product Name</label>
+            <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter product name">
+        </div>
+
+        <div class="mb-3">
+            <label for="product_brand" class="form-label">Brand</label>
+            <input type="text" class="form-control" id="product_brand" name="product_brand" placeholder="Enter Brand" >
+        </div>
+
+        <div class="mb-3">
+            <label for="product_category" class="form-label">Category</label>
+            <select class="form-select" id="product_category" name="product_category">
+                <option value="">Select Category</option>
+                <option value="Smartphones">Smartphones</option>
+                <option value="Laptops">Laptops</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Wearables">Wearables</option>
+                <option value="Home Appliances">Home Appliances</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="product_image" class="form-label">Image</label>
+            <input type="file" class="form-control" id="product_image" name="product_image" placeholder="Enter brand" >
+        </div>
+          <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" name="price" placeholder="Enter Amount" >
+        </div>
+        
+
+        <div class="mb-3">
+            <label for="product_description" class="form-label">Description</label>
+            <textarea class="form-control" id="product_description" name="product_description" rows="2" placeholder="Enter description"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Add Product</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+const form = document.getElementById("product-form");
+const successMsg = document.getElementById("success-msg");
+
+form.addEventListener("submit", async function(e) {
+    e.preventDefault();  // prevent default form submission
+
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch("/add-product_post", {
+            method: "POST",
+            body: formData
+        });
+
+        if (response.ok) {
+            const data = await response.json(); // {message: "Product added successfully!"}
+
+            // Show success message from backend
+            successMsg.textContent = data.message;
+            successMsg.classList.remove("d-none");
+            successMsg.style.display = "block"; // ensure visible
+            successMsg.style.opacity = 1;
+
+            // Hide after 3 seconds
+            setTimeout(() => {
+                successMsg.style.opacity = 0;
+                setTimeout(() => {
+                    successMsg.classList.add("d-none");
+                    successMsg.style.display = "none";
+                }, 1500);
+            }, 3000);
+
+            // Reset the form
+            form.reset();
+        } 
+        else if (response.status === 422) {
+            // FastAPI validation error
+            const errorData = await response.json();
+            console.error("Validation errors:", errorData.detail);
+            alert("Form validation failed! Please check your inputs.");
+        } 
+        else {
+            alert("Failed to add product!");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("An error occurred!");
+    }
+});
+</script>
+
+</body>
+</html>
