@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse,JSONResponse
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from database.db import SessionLocal
 from services import user_service
@@ -11,7 +10,6 @@ from typing import Dict, Any, Optional
 
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates")
 
 
 def get_db():
