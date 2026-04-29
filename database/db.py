@@ -12,8 +12,9 @@ if not DATABASE_URL:
 
 engine = create_engine(
     DATABASE_URL,
-    echo=True,
-    pool_pre_ping=True
+    echo=False,  # ❌ remove logs in production
+    pool_pre_ping=True,
+    connect_args={"sslmode": "require"}  # ✅ IMPORTANT for Render PostgreSQL
 )
 
 SessionLocal = sessionmaker(
