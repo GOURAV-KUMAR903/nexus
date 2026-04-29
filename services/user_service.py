@@ -5,12 +5,14 @@ from helpers.super_helper import SuperHelper
 from dotenv import load_dotenv
 from typing import Dict, Any, Optional
 import os
+from fastapi import Request
 import random
 import string
 from cryptography.fernet import Fernet,InvalidToken
 from fastapi.responses import RedirectResponse  # ✅ THIS IS REQUIRED
 from core.security import create_access_token  # your JWT creation function
 from fastapi.responses import JSONResponse
+
 # key = Fernet.generate_key()
 load_dotenv()  
 key = os.getenv("SECRET_KEY")
@@ -50,23 +52,6 @@ def login_user(db, name, password):
         User.password == password
     ).first()
     
-def generate_short_code(length=6):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
-
-def ShortenURLService(request: Request, templates: Jinja2Templates, original_url: str = None) -> HTMLResponse:
-    short_url = None
-    if original_url:
-        short_code = generate_short_code()
-        url_db[short_code] = original_url
-        short_url = f"{BASE_URL}/shorten_new/{short_code}"
-    return templates.TemplateResponse(
-        "shortener.html",
-        {
-            "request": request,
-            "short_url": short_url
-        }
-    )
-    
 def UserVerfication(request: Request):
     
     return render_view(
@@ -77,7 +62,7 @@ def UserVerfication(request: Request):
     )
 
 
-def UserVerficationPost(request: Request, email: str, password: str):
+def UserVerficationPost(db, email: str, password: str):
     User = SuperHelper.get_single_record("users", {"email": email}, "*")
     
     if not User:

@@ -54,19 +54,6 @@ def show_users(
 def shorten_get(request: Request):
     return user_service.ShortenURLService(request, templates)
 
-# POST route → generate short URL
-@router.post("/shorten", response_class=HTMLResponse)
-def shorten_post(request: Request, original_url: str = Form(...)):
-    return user_service.ShortenURLService(request, templates, original_url)
-
-# Redirect route → click short URL
-@router.get("/shorten_new/{short_code}")
-def redirect_short_url(short_code: str):
-    original_url = user_service.url_db.get(short_code)
-    if original_url:
-        return RedirectResponse(original_url)
-    return {"error": "Short URL not found"}
-
 @router.get("/login", response_class=HTMLResponse)
 def login_form(request: Request):
     return user_service.UserVerfication(request)
