@@ -2,12 +2,17 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse, JSONResponse
+
 from database.db import engine, Base
 from routes import user_routes, cron_routes, product_routes
 
 app = FastAPI()
 
+# ✅ FIRST define templates properly
 templates = Jinja2Templates(directory="templates")
+
+# ❌ REMOVE THIS LINE COMPLETELY
+# templates.env.cache = {}
 
 @app.on_event("startup")
 def startup():

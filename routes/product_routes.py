@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from database.db import SessionLocal
 from services import product_service
 from fastapi import UploadFile, File, Form
+from typing import Dict, Any, Optional
 
 
 router = APIRouter()

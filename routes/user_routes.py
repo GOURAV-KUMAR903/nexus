@@ -6,11 +6,13 @@ from database.db import SessionLocal
 from services import user_service
 from fastapi import Depends
 from core.security import verify_jwt  # your JWT creation function
+from typing import Dict, Any, Optional
 
 
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
+
 
 def get_db():
     db = SessionLocal()
