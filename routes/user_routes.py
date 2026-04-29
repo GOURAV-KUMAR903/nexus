@@ -24,7 +24,7 @@ def get_db():
 
 @router.get("/", response_class=HTMLResponse)
 def register_form(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request})
+     return render_view("register.html", request)
 
 
 @router.post("/register")
