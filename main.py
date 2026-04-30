@@ -8,11 +8,7 @@ from routes import user_routes, cron_routes, product_routes
 
 app = FastAPI()
 
-# ✅ FIRST define templates properly
-templates = Jinja2Templates(directory="templates")
-
-# ❌ REMOVE THIS LINE COMPLETELY
-# templates.env.cache = {}
+# ❌ DO NOT create templates here anymore (REMOVED)
 
 @app.on_event("startup")
 def startup():
