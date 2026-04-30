@@ -48,10 +48,6 @@ def show_users(
         }
     )
 
-@router.get("/shorten", response_class=HTMLResponse)
-def shorten_get(request: Request):
-    return user_service.ShortenURLService(request, templates)
-
 @router.get("/login", response_class=HTMLResponse)
 def login_form(request: Request):
     return user_service.UserVerfication(request)

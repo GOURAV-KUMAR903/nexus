@@ -13,6 +13,7 @@ from fastapi.responses import RedirectResponse  # ✅ THIS IS REQUIRED
 from core.security import create_access_token  # your JWT creation function
 from fastapi.responses import JSONResponse
 
+
 # key = Fernet.generate_key()
 load_dotenv()  
 key = os.getenv("SECRET_KEY")
