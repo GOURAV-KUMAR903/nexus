@@ -5,13 +5,11 @@ import constants
 
 templates = Jinja2Templates(directory="templates")
 
+# SAFE globals only (NO cache manipulation)
 templates.env.globals.update({
-    "APP_NAME": getattr(constants, "APP_NAME", None),
-    "VERSION": getattr(constants, "VERSION", None),
+    "APP_NAME": getattr(constants, "APP_NAME", ""),
+    "VERSION": getattr(constants, "VERSION", ""),
 })
-
-# optional debug safety
-templates.env.cache = {}
 
 def render_view(template_name: str, request: Request, context: dict = None) -> HTMLResponse:
     context = context or {}
