@@ -40,10 +40,10 @@ def show_users(
     user_data: dict = Depends(verify_jwt)
 ):
     users, total_pages = user_service.get_all_users(db, page)
-    return templates.TemplateResponse(
-        "users.html",
+    return render_view(
+    "users.html",
+        request,
         {
-            "request": request,
             "users": users,
             "page": page,
             "total_pages": total_pages
@@ -73,11 +73,11 @@ async def login_post(
     # return JSONResponse(content={"message": result["message"]})  # ✅ INSIDE
     
 @router.get("/logout", response_class=HTMLResponse)
-def login_form(request: Request):
+def logout_form(request: Request):
     return user_service.logout(request)
 
 @router.get("/new_register", response_class=HTMLResponse)
-def login_form(request: Request):
+def newRegister_form(request: Request):
     return user_service.register_new(request)
 
 @router.post("/registerPost")
