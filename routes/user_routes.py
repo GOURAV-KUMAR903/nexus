@@ -6,6 +6,8 @@ from services import user_service
 from fastapi import Depends
 from core.security import verify_jwt  # your JWT creation function
 from typing import Dict, Any, Optional
+from helpers.view_template import render_view
+
 
 
 
@@ -22,7 +24,7 @@ def get_db():
 
 @router.get("/", response_class=HTMLResponse)
 def register_form(request: Request):
-     return render_view("register.html", request)
+     return render_view("register.html", request,{})
 
 
 @router.post("/register")
