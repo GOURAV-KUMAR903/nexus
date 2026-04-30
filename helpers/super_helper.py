@@ -2,7 +2,7 @@ from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy import create_engine, Table, MetaData, select, insert
 from sqlalchemy.exc import NoSuchTableError
 from database.db import DATABASE_URL as SQLALCHEMY_DATABASE_URL, engine, SessionLocal
-from typing import Dict, Any
+from typing import Dict, Any ,Optional
 
 # Setup engine and session
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
